@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiceNow · AI Lab</title>
+<style>
+@font-face { font-family:'ServiceNow Sans'; src:url('https://www.servicenow.com/etc.clientlibs/ds/clientlibs/clientlib-arc-commons/resources/fonts/ServiceNowSans-Thin.woff2') format('woff2'); font-weight:100; font-style:normal; font-display:swap; }
+@font-face { font-family:'ServiceNow Sans'; src:url('https://www.servicenow.com/etc.clientlibs/ds/clientlibs/clientlib-arc-commons/resources/fonts/ServiceNowSans-Light.woff2') format('woff2'); font-weight:300; font-style:normal; font-display:swap; }
+@font-face { font-family:'ServiceNow Sans'; src:url('https://www.servicenow.com/etc.clientlibs/ds/clientlibs/clientlib-arc-commons/resources/fonts/ServiceNowSans-Regular.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:'ServiceNow Sans'; src:url('https://www.servicenow.com/etc.clientlibs/ds/clientlibs/clientlib-arc-commons/resources/fonts/ServiceNowSans-Book.woff2') format('woff2'); font-weight:450; font-style:normal; font-display:swap; }
+@font-face { font-family:'ServiceNow Sans'; src:url('https://www.servicenow.com/etc.clientlibs/ds/clientlibs/clientlib-arc-commons/resources/fonts/ServiceNowSans-Medium.woff2') format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
+@font-face { font-family:'ServiceNow Sans'; src:url('https://www.servicenow.com/etc.clientlibs/ds/clientlibs/clientlib-arc-commons/resources/fonts/ServiceNowSans-Bold.woff2') format('woff2'); font-weight:700; font-style:normal; font-display:swap; }
+@font-face { font-family:'ServiceNow Sans Mono'; src:url('https://www.servicenow.com/etc.clientlibs/ds/clientlibs/clientlib-arc-commons/resources/fonts/ServiceNowSansMono-Regular.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --root-bg: #032D42;
+    --root-border: #0a4a6b;
+    --l1-bg: #eef3fa;
+    --l1-border: #8fa4d8;
+    --l2-bg: #e8fae0;
+    --l2-border: #63DF4E;
+    --l3-bg: #f2fdf0;
+    --l3-border: #85ED77;
+    --line-l1: #8fa4d8;
+    --line-l2: #63DF4E;
+    --text-dark: #032D42;
+    --text-mid: #0a4a6b;
+    --text-soft: #5a7a90;
+    --shadow-sm: 0 2px 8px rgba(3,45,66,0.10);
+    --shadow-md: 0 4px 18px rgba(3,45,66,0.16);
+    --shadow-hover: 0 8px 32px rgba(3,45,66,0.18);
+    --font: 'ServiceNow Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    --font-mono: 'ServiceNow Sans Mono', 'Consolas', 'Monaco', monospace;
+    --radius-node: 10px;
+    --radius-leaf: 8px;
+    --transition: 0.22s cubic-bezier(.4,0,.2,1);
+    --tab-nava-color: #63DF4E;
+    --tab-incident-color: #52B8FF;
+    --tab-bg: #f0f4f8;
+    --tab-border: #dce3ed;
+    --tab-active-bg: #ffffff;
+    --tab-active-shadow: 0 2px 10px rgba(3,45,66,0.13);
+    --btn-bg: var(--l1-bg);
+    --btn-border: var(--l1-border);
+    --btn-color: var(--text-mid);
+    --btn-hover-bg: #e0e7ff;
+    --step-intro-color: var(--text-dark);
+    --legend-color: var(--text-soft);
+    --cap-tag-bg: rgba(100,120,200,0.13);
+    --cap-tag-color: var(--text-soft);
+    --node-l1-active-bg: #e0e7ff;
+    --connector-stroke: #8fa4d8;
+  }
+
+  /* ─── DARK MODE ──────────────────────────────────────── */
+  body.dark-mode {
+    --bg: #032D42;
+    --root-bg: #011824;
+    --root-border: #0a4a6b;
+    --l1-bg: rgba(255,255,255,0.07);
+    --l1-border: rgba(255,255,255,0.15);
+    --l2-bg: rgba(99,223,78,0.08);
+    --l2-border: rgba(99,223,78,0.3);
+    --l3-bg: rgba(255,255,255,0.04);
+    --l3-border: rgba(255,255,255,0.1);
+    --line-l1: rgba(255,255,255,0.2);
+    --line-l2: rgba(99,223,78,0.35);
+    --text-dark: #ffffff;
+    --text-mid: #c8dff0;
+    --text-soft: #8aaac8;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 18px rgba(0,0,0,0.3);
+    --shadow-hover: 0 8px 32px rgba(0,0,0,0.35);
+    --tab-bg: rgba(255,255,255,0.05);
+    --tab-border: rgba(255,255,255,0.1);
+    --tab-active-bg: rgba(255,255,255,0.12);
+    --tab-active-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    --btn-bg: rgba(255,255,255,0.07);
+    --btn-border: rgba(255,255,255,0.15);
+    --btn-color: #c8dff0;
+    --btn-hover-bg: rgba(255,255,255,0.12);
+    --step-intro-color: #ffffff;
+    --legend-color: #8aaac8;
+    --cap-tag-bg: rgba(255,255,255,0.1);
+    --cap-tag-color: #8aaac8;
+    --node-l1-active-bg: rgba(255,255,255,0.12);
+    --connector-stroke: rgba(255,255,255,0.2);
+  }
+  body.dark-mode .node-l2.active { background: rgba(99,223,78,0.15); border-color: rgba(99,223,78,0.4); }
+  body.dark-mode .node-l2 .cap-tag { background: rgba(99,223,78,0.12); color: #85ED77; }
+  body.dark-mode .node-l2 .caret { background: rgba(99,223,78,0.12); color: #85ED77; }
+  body.dark-mode .node-l2.active .caret { background: rgba(99,223,78,0.25); }
+  body.dark-mode .node a { border-bottom-color: rgba(255,255,255,0.2); }
+  body.dark-mode .node a:hover { border-bottom-color: rgba(255,255,255,0.5); }
+  body.dark-mode .indent-l2::before { background: linear-gradient(to bottom, rgba(99,223,78,0.35), transparent); }
+  body.dark-mode .indent-l3::before { background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent); }
+  body.dark-mode .node-l2-wrap::before { background: rgba(99,223,78,0.35); }
+  body.dark-mode .node-l3-wrap::before { background: rgba(255,255,255,0.1); }
+  body.dark-mode .left-sidebar { box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  body.dark-mode .sn-footer { color: #5a7a90; }
+  body.dark-mode .page-subtitle { color: #8aaac8; }
+  body.dark-mode .page-title { color: #ffffff; }
+  body.dark-mode .caret { background: rgba(255,255,255,0.1); color: #8aaac8; }
+  body.dark-mode .node.active .caret { background: rgba(255,255,255,0.18); }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 24px 60px;
+    overflow-x: auto;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* ─── HEADER ────────────────────────────────────────── */
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    margin-bottom: 6px;
+    margin-top: 28px;
+  }
+  .page-subtitle {
+    font-size: 13px;
+    font-weight: 400;
+    color: #6B7280;
+    letter-spacing: 0.06em;
+    margin-bottom: 28px;
+  }
+
+  /* ─── TABS ─────────────────────────────────────────── */
+  .tab-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 28px;
+    background: var(--tab-bg);
+    border-radius: 14px;
+    padding: 5px;
+    border: 1px solid var(--tab-border);
+  }
+  .tab-btn {
+    padding: 9px 22px;
+    border-radius: 10px;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    font-family: var(--font);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all var(--transition);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text-mid); background: var(--btn-hover-bg); }
+  .tab-btn.active {
+    background: var(--tab-active-bg);
+    color: var(--text-dark);
+    box-shadow: var(--tab-active-shadow);
+    font-weight: 600;
+  }
+  .tab-btn[data-tab="tab-nava"].active   { border-bottom-color: var(--tab-nava-color); }
+  .tab-btn[data-tab="tab-incident"].active { border-bottom-color: var(--tab-incident-color); }
+
+  .tab-panel { display: none; width: 100%; flex-direction: column; align-items: center; }
+  .tab-panel.active { display: flex; padding-bottom: 8px; }
+
+  /* ─── CONTROLS ──────────────────────────────────────── */
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    align-items: center;
+  }
+  .btn {
+    padding: 7px 18px;
+    border-radius: 20px;
+    border: 1.5px solid var(--btn-border);
+    background: var(--btn-bg);
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--btn-color);
+    cursor: pointer;
+    transition: all var(--transition);
+    letter-spacing: 0.02em;
+  }
+  .btn:hover { background: var(--btn-hover-bg); border-color: var(--l1-border); box-shadow: var(--shadow-sm); }
+  .btn-sc {
+    background: #032D42;
+    border-color: #0a4a6b;
+    color: #63DF4E;
+  }
+  .btn-sc:hover { background: #0a4a6b; border-color: #63DF4E; }
+  .btn-sc.active-sc {
+    background: #63DF4E;
+    border-color: #63DF4E;
+    color: #032D42;
+  }
+
+  /* ─── LEGEND ────────────────────────────────────────── */
+  .legend {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11.5px;
+    color: var(--legend-color);
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    border: 1.5px solid;
+    flex-shrink: 0;
+  }
+
+  /* ─── FLOW WRAP ─────────────────────────────────────── */
+  .flow-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+  }
+
+  .root-col {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    position: relative;
+    z-index: 1;
+  }
+
+  .branches-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── NODES ──────────────────────────────────────────── */
+  .node {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    position: relative;
+    white-space: nowrap;
+  }
+  .node:hover { transform: translateY(-1px); box-shadow: var(--shadow-hover); }
+  .node:active { transform: translateY(0); }
+
+  .node-root {
+    padding: 14px 22px;
+    background: var(--root-bg);
+    border: 1.5px solid var(--root-border);
+    border-radius: var(--radius-node);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #ffffff;
+    box-shadow: var(--shadow-md);
+  }
+
+  .node-l1 {
+    padding: 11px 18px;
+    background: var(--l1-bg);
+    border: 1.5px solid var(--l1-border);
+    border-radius: var(--radius-node);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-mid);
+    box-shadow: var(--shadow-sm);
+    min-width: 230px;
+  }
+  .node-l1.active { background: var(--node-l1-active-bg); border-color: var(--l1-border); box-shadow: var(--shadow-hover); }
+
+  .node-l2 {
+    padding: 9px 16px;
+    background: var(--l2-bg);
+    border: 1.5px solid var(--l2-border);
+    border-radius: var(--radius-leaf);
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--text-dark);
+    box-shadow: var(--shadow-sm);
+    min-width: 210px;
+  }
+  .node-l2.active { background: #d4f5d0; border-color: #63DF4E; }
+
+  .node-l3 {
+    padding: 8px 14px;
+    background: var(--l3-bg);
+    border: 1.5px solid var(--l3-border);
+    border-radius: var(--radius-leaf);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-dark);
+    box-shadow: var(--shadow-sm);
+    min-width: 195px;
+  }
+
+  .node-leaf { cursor: default; }
+  .node-leaf:hover { transform: none; box-shadow: var(--shadow-sm); }
+  .node a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(3,45,66,0.2); }
+  .node a:hover { border-bottom-color: var(--text-mid); }
+
+  /* ─── CAPABILITY TAGS ───────────────────────────────── */
+  .cap-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--cap-tag-bg);
+    color: var(--cap-tag-color);
+    margin: 0 6px 0 4px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .node-l2 .cap-tag {
+    background: rgba(99,223,78,0.13);
+    color: #1a7a2a;
+  }
+
+  /* ─── TOOLTIP ───────────────────────────────────────── */
+  [data-tip] { position: relative; }
+  [data-tip]:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #032D42;
+    color: #e8edf8;
+    font-size: 11.5px;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 8px 13px;
+    border-radius: 8px;
+    white-space: normal;
+    width: 240px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+    z-index: 100;
+    pointer-events: none;
+  }
+  [data-tip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #032D42;
+    z-index: 101;
+    pointer-events: none;
+  }
+
+  /* caret */
+  .caret {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: rgba(100,120,200,0.12);
+    margin-left: 10px;
+    flex-shrink: 0;
+    transition: transform var(--transition), background var(--transition);
+    font-size: 10px;
+    color: var(--text-mid);
+  }
+  .node.active .caret { background: rgba(80,110,200,0.22); transform: rotate(90deg); }
+  .node-l2 .caret { background: rgba(99,223,78,0.13); color: #1a7a2a; }
+  .node-l2.active .caret { background: rgba(99,223,78,0.25); transform: rotate(90deg); }
+
+  /* ─── BRANCH GROUP ───────────────────────────────────── */
+  .branch-group { display: flex; flex-direction: row; align-items: flex-start; }
+
+  /* ─── L1 CHILDREN ────────────────────────────────────── */
+  .children-l1 {
+    overflow: hidden;
+    max-width: 0;
+    height: 0;
+    opacity: 0;
+    transition: max-width 0.42s cubic-bezier(.4,0,.2,1), opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 0;
+    flex-shrink: 0;
+  }
+  .children-l1.open { max-width: 3000px; height: auto; opacity: 1; margin-left: 20px; }
+
+  /* ─── L2 GROUP ───────────────────────────────────────── */
+  .l2-group { display: flex; flex-direction: row; align-items: flex-start; }
+
+  /* ─── L2 CHILDREN ────────────────────────────────────── */
+  .children-l2 {
+    overflow: hidden;
+    max-width: 0;
+    height: 0;
+    opacity: 0;
+    transition: max-width 0.34s cubic-bezier(.4,0,.2,1), opacity 0.26s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 0;
+    flex-shrink: 0;
+  }
+  .children-l2.open { max-width: 2000px; height: auto; opacity: 1; margin-left: 16px; }
+
+  /* ─── INDENT / CONNECTOR HELPERS ───────────────────── */
+  .indent-l2 {
+    padding-left: 28px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .indent-l3 {
+    padding-left: 28px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .indent-l2::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 1.5px;
+    background: linear-gradient(to bottom, var(--line-l2), transparent);
+    border-radius: 2px;
+  }
+  .indent-l3::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 1.5px;
+    background: linear-gradient(to bottom, var(--l3-border), transparent);
+    border-radius: 2px;
+  }
+  .node-l2-wrap, .node-l3-wrap { position: relative; padding-left: 18px; }
+  .node-l2-wrap::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 50%;
+    width: 14px; height: 1.5px;
+    background: var(--line-l2);
+    transform: translateY(-50%);
+  }
+  .node-l3-wrap::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 50%;
+    width: 14px; height: 1.5px;
+    background: var(--l3-border);
+    transform: translateY(-50%);
+  }
+  .l1-row { display: flex; align-items: center; }
+
+  /* ─── ANIMATED SVG LINES ────────────────────────────── */
+  @keyframes dash-flow {
+    to { stroke-dashoffset: -20; }
+  }
+
+  /* ─── LEFT SIDEBAR ──────────────────────────────────── */
+  .left-sidebar {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 240px;
+    background: #032D42;
+    border-radius: 16px;
+    padding: 28px 24px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 8px 32px rgba(3,45,66,0.28);
+  }
+  .sidebar-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,80,80,0.15);
+    border: 1px solid rgba(255,80,80,0.35);
+    border-radius: 20px;
+    padding: 4px 12px;
+    width: fit-content;
+  }
+  .sidebar-badge-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #ff5050;
+    animation: pulse 1.6s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .sidebar-badge-text {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #ff7070;
+    text-transform: uppercase;
+  }
+  .sidebar-timestamp {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: #7a9abf;
+  }
+  .sidebar-alert {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.4;
+    border-left: 3px solid #63DF4E;
+    padding-left: 12px;
+  }
+  .sidebar-divider { height: 1px; background: rgba(255,255,255,0.08); }
+  .sidebar-desc {
+    font-size: 13px;
+    font-weight: 400;
+    color: #8aaac8;
+    line-height: 1.7;
+  }
+  .sidebar-desc strong { color: #c8dff0; font-weight: 600; }
+
+  /* Sidebar step progress */
+  .sidebar-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .sidebar-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.35;
+    transition: opacity 0.3s ease;
+  }
+  .sidebar-step.active { opacity: 1; }
+  .sidebar-step-circle {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #8aaac8;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+  .sidebar-step.active .sidebar-step-circle {
+    background: #63DF4E;
+    border-color: #63DF4E;
+    color: #032D42;
+  }
+  .sidebar-step-label {
+    font-size: 11.5px;
+    color: #8aaac8;
+    line-height: 1.35;
+  }
+  .sidebar-step.active .sidebar-step-label { color: #c8dff0; }
+
+  /* ─── STEP INTRO ────────────────────────────────────── */
+  .step-intro {
+    margin-top: 48px;
+    margin-bottom: 20px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--step-intro-color);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ─── STEP CARDS ────────────────────────────────────── */
+  .step-timeline-wrap {
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .step-timeline-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  .step-tnum {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #032D42;
+    color: #63DF4E;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+  }
+  .step-tline {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, #032D42, #63DF4E, #032D42);
+    opacity: 0.3;
+  }
+  .step-cards {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+  }
+  .step-card {
+    flex: 1;
+    background: #032D42;
+    border-radius: 12px;
+    padding: 28px 30px 32px;
+    color: #e8eaf6;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .step-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #63DF4E;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .step-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 14px;
+    line-height: 1.45;
+  }
+  .step-body {
+    font-size: 13.5px;
+    font-weight: 400;
+    color: #b0b8d0;
+    line-height: 1.7;
+    flex: 1;
+  }
+  .sc-note {
+    display: none;
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: rgba(99,223,78,0.08);
+    border: 1px solid rgba(99,223,78,0.25);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #85ED77;
+    line-height: 1.6;
+  }
+  .sc-note::before {
+    content: '💡 SC Note: ';
+    font-weight: 700;
+    color: #63DF4E;
+  }
+  .sc-notes-on .sc-note { display: block; }
+  .step-arrow {
+    flex-shrink: 0;
+    font-size: 22px;
+    color: #63DF4E;
+    padding: 0 20px;
+    align-self: center;
+    opacity: 0.6;
+  }
+
+  /* ─── SN BRANDED HEADER ──────────────────────────────── */
+  .sn-header {
+    width: 100%;
+    background: #032D42;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 200;
+    box-shadow: 0 2px 12px rgba(3,45,66,0.25);
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .sn-header-left {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-shrink: 0;
+  }
+  .sn-header-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: #8aaac8;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  .sn-header-links strong {
+    font-weight: 500;
+    color: #c8dff0;
+  }
+  .sn-header-links a {
+    color: #63DF4E;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    border: 1px solid rgba(99,223,78,0.25);
+    transition: all 0.2s;
+  }
+  .sn-header-links a:hover {
+    background: rgba(99,223,78,0.1);
+    border-color: rgba(99,223,78,0.5);
+  }
+  .sn-header-sep {
+    width: 1px;
+    height: 16px;
+    background: rgba(255,255,255,0.12);
+    flex-shrink: 0;
+  }
+  .sn-header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .sn-header-tagline {
+    font-size: 11px;
+    font-weight: 300;
+    color: #8aaac8;
+    white-space: nowrap;
+  }
+  .sn-mode-toggle {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 9999px;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .sn-mode-opt {
+    padding: 5px 14px;
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 450;
+    color: #8aaac8;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .sn-mode-opt.active {
+    background: #63DF4E;
+    color: #032D42;
+    font-weight: 700;
+  }
+  /* ─── SN FOOTER ──────────────────────────────────────── */
+  .sn-footer {
+    width: 100%;
+    padding: 24px 0;
+    text-align: center;
+    font-size: 12px;
+    color: #6B7280;
+    font-weight: 300;
+    margin-top: 48px;
+  }
+</style>
+</head>
+<body>
+
+<!-- SN BRANDED HEADER -->
+<div class="sn-header">
+  <div class="sn-header-left">
+    <svg xmlns="http://www.w3.org/2000/svg" width="132" height="20" viewBox="0 0 132 20"><path d="M32.022,6.391a5.626,5.626,0,0,0-3.61,1.3V6.523H25.119V19.35h3.425v-8.2a4.073,4.073,0,0,1,3.109-1.588,3.494,3.494,0,0,1,1.374.206V6.479a5.851,5.851,0,0,0-1.005-.088" fill="#ffffff" fill-rule="evenodd"/><path d="M2.16,15.436a5.369,5.369,0,0,0,3.5,1.269c.922,0,1.633-.45,1.633-1.084,0-1.931-6.191-1.243-6.191-5.369,0-2.459,2.371-3.993,4.9-3.993a7.9,7.9,0,0,1,4.32,1.3L8.72,10.04a4.3,4.3,0,0,0-2.45-.872c-.948,0-1.739.37-1.739,1.031,0,1.666,6.192,1.005,6.192,5.448,0,2.46-2.4,3.967-5.085,3.967A8.815,8.815,0,0,1,.5,17.9Z" fill="#ffffff" fill-rule="evenodd"/><path d="M23.657,12.817c0-3.57-2.5-6.558-6.034-6.558-3.794,0-6.218,3.12-6.218,6.691A6.4,6.4,0,0,0,18.1,19.614a6.919,6.919,0,0,0,5.243-2.3l-1.95-1.957a4.515,4.515,0,0,1-3.214,1.481A3.36,3.36,0,0,1,14.725,13.8h8.853A5.735,5.735,0,0,0,23.657,12.817Zm-8.774-1.533a2.775,2.775,0,0,1,2.74-2.248,2.552,2.552,0,0,1,2.53,2.248Z" fill="#ffffff" fill-rule="evenodd"/><polygon points="41.19 14.351 44.694 6.523 48.252 6.523 42.376 19.35 40.005 19.35 34.129 6.523 37.686 6.523 41.19 14.351" fill="#ffffff" fill-rule="evenodd"/><path d="M51.128.5A2.2,2.2,0,1,1,48.888,2.7,2.2,2.2,0,0,1,51.128.5" fill="#ffffff" fill-rule="evenodd"/><rect x="49.415" y="6.523" width="3.425" height="12.827" fill="#ffffff"/><path d="M67,16.731a6.766,6.766,0,0,1-5.8,2.883,6.68,6.68,0,1,1,.026-13.355,6.808,6.808,0,0,1,5.375,2.565l-2.424,2.142a3.7,3.7,0,0,0-2.951-1.534A3.433,3.433,0,0,0,57.78,12.95a3.383,3.383,0,0,0,3.531,3.49,3.741,3.741,0,0,0,3.056-1.692Z" fill="#ffffff" fill-rule="evenodd"/><path d="M79.442,17.313a6.918,6.918,0,0,1-5.243,2.3,6.4,6.4,0,0,1-6.692-6.664c0-3.571,2.424-6.691,6.218-6.691,3.53,0,6.033,2.988,6.033,6.558a5.635,5.635,0,0,1-.079.979H70.826a3.36,3.36,0,0,0,3.452,3.041,4.52,4.52,0,0,0,3.215-1.481Zm-3.188-6.029a2.551,2.551,0,0,0-2.529-2.248,2.774,2.774,0,0,0-2.74,2.248Z" fill="#ffffff" fill-rule="evenodd"/><path d="M81.12,19.35V6.523h3.293V7.554a5.625,5.625,0,0,1,3.609-1.295,5.747,5.747,0,0,1,4.427,2.063,6.482,6.482,0,0,1,1.317,4.5V19.35H90.341v-6.8a3.11,3.11,0,0,0-.764-2.407,2.69,2.69,0,0,0-1.923-.714,4.076,4.076,0,0,0-3.109,1.587V19.35Z" fill="#ffffff" fill-rule="evenodd"/><path d="M102.586,6.259A7.5,7.5,0,0,0,97.419,19.21a1.481,1.481,0,0,0,1.926.1,5.355,5.355,0,0,1,6.394,0,1.485,1.485,0,0,0,1.937-.113,7.5,7.5,0,0,0-5.09-12.94M102.542,17.5a3.637,3.637,0,0,1-3.734-3.733,3.734,3.734,0,1,1,7.468,0,3.637,3.637,0,0,1-3.734,3.733" fill="#62d84e" fill-rule="evenodd"/><polygon points="116.788 19.35 114.237 19.35 109.15 6.523 112.57 6.523 115.359 13.853 118.094 6.523 120.952 6.523 123.662 13.853 126.475 6.523 129.896 6.523 124.809 19.35 122.258 19.35 119.523 12.046 116.788 19.35" fill="#ffffff" fill-rule="evenodd"/><path d="M129.935,17.9h-.289v.543H129.4V16.957h.6a.476.476,0,0,1,.478.478.469.469,0,0,1-.295.432l.338.579h-.268Zm-.289-.219H130a.249.249,0,0,0,0-.5h-.351Z" fill="#ffffff"/><path d="M129.9,16.348a1.379,1.379,0,1,1-1.378,1.379,1.381,1.381,0,0,1,1.378-1.379m0-.218a1.6,1.6,0,1,0,1.6,1.6,1.6,1.6,0,0,0-1.6-1.6Z" fill="#ffffff"/></svg>
+    <div class="sn-header-sep"></div>
+    <div class="sn-header-links">
+      <strong>APAC End-to-End AI Workshop Lab Links:</strong>
+      <a href="https://servicenow-data-and-ai.gitbook.io/aie2e/" target="_blank">AI Lab</a>
+      <a href="https://servicenow-data-and-ai.gitbook.io/wdf-lab" target="_blank">WDF Lab</a>
+    </div>
+  </div>
+  <div class="sn-header-right">
+    <span class="sn-header-tagline">Your Intelligent Automation, AI, and Data Team</span>
+    <div class="sn-mode-toggle" id="modeToggle">
+      <button class="sn-mode-opt active" id="modeLightBtn" onclick="setMode('light')">Light</button>
+      <button class="sn-mode-opt" id="modeDarkBtn" onclick="setMode('dark')">Dark</button>
+    </div>
+  </div>
+</div>
+
+<!-- LEFT SIDEBAR -->
+<div class="left-sidebar">
+  <div class="sidebar-badge">
+    <div class="sidebar-badge-dot"></div>
+    <span class="sidebar-badge-text">Live Incident</span>
+  </div>
+  <div class="sidebar-timestamp">1:25 am</div>
+  <div class="sidebar-alert">"Veritas Server is unreachable"</div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-desc">This is the scenario we're going to solve — <strong>one incident, seven AI capabilities.</strong></div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-steps" id="sidebarSteps">
+    <div class="sidebar-step active" id="sstep-01">
+      <div class="sidebar-step-circle">01</div>
+      <div class="sidebar-step-label">User reports issue via chat</div>
+    </div>
+    <div class="sidebar-step active" id="sstep-02">
+      <div class="sidebar-step-circle">02</div>
+      <div class="sidebar-step-label">AI reads screenshot & creates incident</div>
+    </div>
+    <div class="sidebar-step" id="sstep-03">
+      <div class="sidebar-step-circle">03</div>
+      <div class="sidebar-step-label">Agent searches KB & builds fix</div>
+    </div>
+    <div class="sidebar-step" id="sstep-04">
+      <div class="sidebar-step-circle">04</div>
+      <div class="sidebar-step-label">External agent executes on server</div>
+    </div>
+  </div>
+</div>
+
+<p class="page-title">AI Lab</p>
+<p class="page-subtitle">Interactive Architecture Walkthrough</p>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="tab-nava" onclick="switchTab('tab-nava', this)">Requestor Flow</button>
+  <button class="tab-btn" data-tab="tab-incident" onclick="switchTab('tab-incident', this)">Fulfiller Flow</button>
+</div>
+
+<!-- SHARED LEGEND + SC NOTES TOGGLE -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--root-bg);border-color:var(--root-border)"></div><span id="legendRootLabel">Front Door</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--l1-bg);border-color:var(--l1-border)"></div>Reasoning Stage
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--l2-bg);border-color:var(--l2-border)"></div>Agent / Tool Stage
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--l3-bg);border-color:var(--l3-border)"></div>Outcome / Action
+  </div>
+  <button class="btn btn-sc" id="scNoteBtn" onclick="toggleScNotes()">SC Notes: Off</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TAB 1 — NAVA REQUESTOR JOURNEY                     -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="tab-panel active" id="tab-nava">
+  <div class="controls">
+    <button class="btn" onclick="expandAll('nava')">Expand All</button>
+    <button class="btn" onclick="collapseAll('nava')">Collapse All</button>
+  </div>
+
+  <div class="flow-wrap" id="flowWrap-nava">
+    <div class="root-col" id="rootCol-nava">
+      <div class="node node-root" id="rootNode-nava">NAVA Requestor Journey</div>
+    </div>
+    <svg id="main-svg-nava" style="position:absolute;top:0;left:0;overflow:visible;pointer-events:none;z-index:0;"></svg>
+
+    <div class="branches-col" id="branchesCol-nava">
+
+      <!-- Initial Trigger -->
+      <div class="branch-group">
+        <div class="l1-row">
+          <div class="node node-l1" data-toggle="nava-b0"
+            data-tip="Virtual Agent picks up the conversation — no login screen, no form filling. The user just types.">
+            Initial Trigger <span class="cap-tag">Virtual Agent</span><span class="caret">▶</span>
+          </div>
+        </div>
+        <div class="children-l1" id="nava-b0">
+          <div class="indent-l2">
+            <div class="node-l2-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-1-requestor-flow/01-now-assist-virtual-agent" target="_blank">User message received in NAVA</a></div></div>
+            <div class="node-l2-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-1-requestor-flow/02-l1-agent-first-responder-analyst-agent" target="_blank">Agent Planner triggers First Responder Agent</a></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Initial Identification -->
+      <div class="branch-group">
+        <div class="l1-row">
+          <div class="node node-l1" data-toggle="nava-b1"
+            data-tip="Knowledge Graph means zero onboarding friction — the agent already knows who the user is before they finish typing.">
+            Initial Identification &amp; Troubleshooting <span class="cap-tag">Knowledge Graph</span><span class="caret">▶</span>
+          </div>
+        </div>
+        <div class="children-l1" id="nava-b1">
+          <div class="indent-l2">
+            <div class="node-l2-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-1-requestor-flow/02-l1-agent-first-responder-analyst-agent#tool-1-knowledge-graph" target="_blank">Tool 1: Knowledge Graph (Requestor ID)</a></div></div>
+            <div class="node-l2-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-1-requestor-flow/02-l1-agent-first-responder-analyst-agent#tool-2-file-upload-troubleshooting-resolution-guide" target="_blank">Tool 2: File Upload (Troubleshooting Steps)</a></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resolution Check -->
+      <div class="branch-group">
+        <div class="l1-row">
+          <div class="node node-l1" data-toggle="nava-b2"
+            data-tip="Now Assist decides in real-time: deflect or escalate. No human routing required at this stage.">
+            Resolution Check <span class="cap-tag">Now Assist</span><span class="caret">▶</span>
+          </div>
+        </div>
+        <div class="children-l1" id="nava-b2">
+          <div class="indent-l2">
+            <div class="l2-group">
+              <div class="node-l2-wrap">
+                <div class="node node-l2" data-toggle="nava-resolved">Issue Resolved <span class="caret">▶</span></div>
+              </div>
+              <div class="children-l2 indent-l3" id="nava-resolved">
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf">Deflect</div></div>
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf">Conversation ends</div></div>
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf">No Incident created</div></div>
+              </div>
+            </div>
+            <div class="l2-group">
+              <div class="node-l2-wrap">
+                <div class="node node-l2" data-toggle="nava-persistent">Issue Persistent <span class="caret">▶</span></div>
+              </div>
+              <div class="children-l2 indent-l3" id="nava-persistent">
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-1-requestor-flow/02-l1-agent-first-responder-analyst-agent#tool-3-conversational-topic-image-upload" target="_blank">Tool 3: Conversation Topic</a></div></div>
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf">Request issue details</div></div>
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf">Request image uploads</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident Creation -->
+      <div class="branch-group">
+        <div class="l1-row">
+          <div class="node node-l1" data-toggle="nava-b3"
+            data-tip="Doc Intelligence replaces manual data entry entirely. Show the VX-3042 extraction live — this is the wow moment for the requestor journey.">
+            Incident Creation <span class="cap-tag">Doc Intelligence</span><span class="caret">▶</span>
+          </div>
+        </div>
+        <div class="children-l1" id="nava-b3">
+          <div class="indent-l2">
+            <div class="l2-group">
+              <div class="node-l2-wrap">
+                <div class="node node-l2" data-toggle="nava-tool4"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-1-requestor-flow/02-l1-agent-first-responder-analyst-agent#tool-4-subflow-incident-creation" target="_blank">Tool 4: Subflow</a> <span class="caret">▶</span></div>
+              </div>
+              <div class="children-l2 indent-l3" id="nava-tool4">
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf">Incident created</div></div>
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf">Images attached</div></div>
+              </div>
+            </div>
+            <div class="l2-group">
+              <div class="node-l2-wrap">
+                <div class="node node-l2" data-toggle="nava-postcreation">Post-Creation Processing <span class="caret">▶</span></div>
+              </div>
+              <div class="children-l2 indent-l3" id="nava-postcreation">
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-1-requestor-flow/03-now-assist-document-intelligence" target="_blank">NA DocIntel auto-trigger</a></div></div>
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf">Detail extraction</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /branchesCol-nava -->
+  </div><!-- /flowWrap-nava -->
+
+  <!-- Step Cards -->
+  <p class="step-intro">An employee reports a backup failure.<br>AI handles the rest — end to end.</p>
+  <div class="step-timeline-wrap">
+    <div class="step-timeline-track">
+      <div class="step-tnum">01</div>
+      <div class="step-tline"></div>
+      <div class="step-tnum">02</div>
+    </div>
+    <div class="step-cards">
+      <div class="step-card">
+        <div class="step-label">Step 01</div>
+        <div class="step-title">User chats in. AI greets, understands, tries to help.</div>
+        <div class="step-body">The Virtual Agent picks up the conversation. It already knows who the user is, what system they own — all from the Knowledge Graph. It tries to resolve the issue with a troubleshooting guide first.</div>
+        <div class="sc-note">Knowledge Graph means zero onboarding friction. Emphasise: the agent knows the user before they finish typing — no "what's your employee ID?" moments.</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-card">
+        <div class="step-label">Step 02</div>
+        <div class="step-title">Can't fix it in chat. User uploads a screenshot. AI reads it.</div>
+        <div class="step-body">When the chat steps don't work, the user uploads their error screenshot. Document Intelligence automatically reads the image, extracts the error code (VX-3042), and populates it into the incident — no typing, no manual entry, no ambiguity.</div>
+        <div class="sc-note">Live demo moment: show the VX-3042 extraction happening. This lands well with ops-heavy audiences — "no manual entry" is a real pain point they recognise immediately.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-nava -->
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TAB 2 — FULFILLER JOURNEY                          -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-incident">
+  <div class="controls">
+    <button class="btn" onclick="expandAll('incident')">Expand All</button>
+    <button class="btn" onclick="collapseAll('incident')">Collapse All</button>
+  </div>
+
+  <div class="flow-wrap" id="flowWrap-incident">
+    <div class="root-col" id="rootCol-incident">
+      <div class="node node-root" id="rootNode-incident">Agentic Workflow - Fulfiller Journey</div>
+    </div>
+    <svg id="main-svg-incident" style="position:absolute;top:0;left:0;overflow:visible;pointer-events:none;z-index:0;"></svg>
+
+    <div class="branches-col" id="branchesCol-incident">
+
+      <!-- Resolver Agent Flow -->
+      <div class="branch-group">
+        <div class="l1-row">
+          <div class="node node-l1" data-toggle="inc-fulfiller"
+            data-tip="Now Assist Skill Kit is the SC differentiator — it's not a chatbot, it's a resolution engine with structured output written back to the incident.">
+            Resolver Agent Flow <span class="cap-tag">Now Assist</span><span class="caret">▶</span>
+          </div>
+        </div>
+        <div class="children-l1" id="inc-fulfiller">
+          <div class="indent-l2">
+
+            <div class="l2-group">
+              <div class="node-l2-wrap">
+                <div class="node node-l2" data-toggle="inc-trigger">Trigger <span class="cap-tag">NAP</span><span class="caret">▶</span></div>
+              </div>
+              <div class="children-l2 indent-l3" id="inc-trigger">
+                <div class="node-l3-wrap"><div class="node node-l3 node-leaf">NAP Engagement</div></div>
+              </div>
+            </div>
+
+            <div class="l2-group">
+              <div class="node-l2-wrap">
+                <div class="node node-l2" data-toggle="inc-rfa"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-2-fulfiller-flow/06-fulfiller-ai-agent" target="_blank">Resolution Finder Agent</a> <span class="cap-tag">Skill Kit</span><span class="caret">▶</span></div>
+              </div>
+              <div class="children-l2 indent-l3" id="inc-rfa">
+
+                <div class="l2-group">
+                  <div class="node-l3-wrap">
+                    <div class="node node-l2" data-toggle="inc-nask" style="min-width:195px">Now Assist Skill Kit <span class="caret">▶</span></div>
+                  </div>
+                  <div class="children-l2 indent-l3" id="inc-nask">
+                    <div class="node-l3-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-2-fulfiller-flow/04a-now-assist-skill-kit-createoptimalsearchqueryskill" target="_blank">Generate Optimized Search Query</a></div></div>
+                    <div class="node-l3-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill" target="_blank">Retrieve Knowledge</a></div></div>
+                    <div class="node-l3-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-2-fulfiller-flow/04b-now-assist-skill-kit-part2-resolutionfinderinternaldataskill#step-5-add-tool-1-predictive-intelligence-findsimilarincidents" target="_blank">Retrieve Similar Incident Resolution</a></div></div>
+                    <div class="node-l3-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-2-fulfiller-flow/04c-now-assist-skill-kit-web-search" target="_blank">Web Search Resolution</a></div></div>
+                  </div>
+                </div>
+
+                <div class="l2-group">
+                  <div class="node-l3-wrap">
+                    <div class="node node-l2" data-toggle="inc-kfound" style="min-width:195px">If Knowledge Found Path <span class="caret">▶</span></div>
+                  </div>
+                  <div class="children-l2 indent-l3" id="inc-kfound">
+                    <div class="node-l3-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-2-fulfiller-flow/05-mcp-elastic-integration" target="_blank">Elastic MCP Log Analysis</a></div></div>
+                    <div class="node-l3-wrap"><div class="node node-l3 node-leaf">External Agent Remediation Handover</div></div>
+                  </div>
+                </div>
+
+                <div class="l2-group">
+                  <div class="node-l3-wrap">
+                    <div class="node node-l2" data-toggle="inc-knotfound" style="min-width:195px">If No Knowledge Found Path <span class="caret">▶</span></div>
+                  </div>
+                  <div class="children-l2 indent-l3" id="inc-knotfound">
+                    <div class="node-l3-wrap"><div class="node node-l3 node-leaf">Incident Detail Analysis</div></div>
+                    <div class="node-l3-wrap"><div class="node node-l3 node-leaf">Run NASK - Web Search Resolution</div></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Interoperability Flow -->
+      <div class="branch-group">
+        <div class="l1-row">
+          <div class="node node-l1" data-toggle="inc-interop"
+            data-tip="A2A protocol closes the loop outside ServiceNow — the fix happens on the actual server. This is the wow moment for the fulfiller journey.">
+            Interoperability Flow <span class="cap-tag">A2A Protocol</span><span class="caret">▶</span>
+          </div>
+        </div>
+        <div class="children-l1" id="inc-interop">
+          <div class="indent-l2">
+            <div class="node-l2-wrap"><div class="node node-l3 node-leaf">External Agent Trigger</div></div>
+            <div class="node-l2-wrap"><div class="node node-l3 node-leaf"><a href="https://servicenow-data-and-ai.gitbook.io/aie2e/phase-3-external-integration/07-external-agent-integration#part-1-oauth-2.0-setup-authenticating-to-azure-ai-foundry" target="_blank">Authentication &amp; Discovery of External Agent</a></div></div>
+            <div class="node-l2-wrap"><div class="node node-l3 node-leaf">Execution of Remediation</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /branchesCol-incident -->
+  </div><!-- /flowWrap-incident -->
+
+  <!-- Step Cards -->
+  <div class="step-timeline-wrap" style="margin-top:48px">
+    <div class="step-timeline-track">
+      <div class="step-tnum">03</div>
+      <div class="step-tline"></div>
+      <div class="step-tnum">04</div>
+    </div>
+    <div class="step-cards">
+      <div class="step-card">
+        <div class="step-label">Step 03</div>
+        <div class="step-title">A specialist AI agent searches KB, analyses logs, builds a fix.</div>
+        <div class="step-body">The Resolution Finder Agent kicks in. It optimises the search query, retrieves matching knowledge articles, analyses error logs, and if it finds a match — writes a structured resolution plan back to the incident. If not, it falls back to privacy-safe web search.</div>
+        <div class="sc-note">Now Assist Skill Kit is the SC differentiator — position it as a resolution engine, not a chatbot. The structured plan written back to the incident is what separates this from generic AI.</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-card">
+        <div class="step-label">Step 04</div>
+        <div class="step-title">Another agent executes the fix on the actual server. Done.</div>
+        <div class="step-body">The Observability Agent sends the plan to Azure AI Foundry via A2A protocol. The external agent restarts the NetBackup job, verifies the backup completes, and reports back. ServiceNow closes the incident automatically — or hands it to L2 with a full execution log if something goes wrong.</div>
+        <div class="sc-note">The "wow" moment: the fix executes outside ServiceNow via A2A. Ask the audience — "how many of your incidents require touching a system outside ServiceNow?" — then show this closes that loop automatically.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-incident -->
+
+<div class="sn-footer">&copy; 2026 ServiceNow, Inc. All rights reserved.</div>
+
+<script>
+// ─── SC NOTES TOGGLE ──────────────────────────────────────
+let scNotesOn = false;
+function toggleScNotes() {
+  scNotesOn = !scNotesOn;
+  document.body.classList.toggle('sc-notes-on', scNotesOn);
+  const btn = document.getElementById('scNoteBtn');
+  btn.textContent = scNotesOn ? 'SC Notes: On' : 'SC Notes: Off';
+  btn.classList.toggle('active-sc', scNotesOn);
+}
+
+// ─── SIDEBAR STEPS ────────────────────────────────────────
+function updateSidebarSteps(tabId) {
+  const isNava = tabId === 'tab-nava';
+  document.getElementById('sstep-01').classList.toggle('active', isNava);
+  document.getElementById('sstep-02').classList.toggle('active', isNava);
+  document.getElementById('sstep-03').classList.toggle('active', !isNava);
+  document.getElementById('sstep-04').classList.toggle('active', !isNava);
+}
+
+// ─── TAB SWITCH ───────────────────────────────────────────
+function switchTab(tabId, btn) {
+  // auto-collapse all panels on switch
+  document.querySelectorAll('.tab-panel').forEach(p => {
+    p.querySelectorAll('.children-l1, .children-l2').forEach(el => el.classList.remove('open'));
+    p.querySelectorAll('[data-toggle]').forEach(n => n.classList.remove('active'));
+    p.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+  updateSidebarSteps(tabId);
+  document.getElementById('legendRootLabel').textContent = tabId === 'tab-nava' ? 'Front Door' : 'Backstage';
+  const key = tabId.replace('tab-', '');
+  setTimeout(() => drawLines(key), 80);
+}
+
+// ─── TOGGLE ───────────────────────────────────────────────
+function toggleNode(targetId) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const isOpen = el.classList.contains('open');
+  el.classList.toggle('open', !isOpen);
+  const toggler = document.querySelector(`[data-toggle="${targetId}"]`);
+  if (toggler) toggler.classList.toggle('active', !isOpen);
+}
+
+document.querySelectorAll('[data-toggle]').forEach(node => {
+  node.addEventListener('click', () => {
+    const id = node.dataset.toggle;
+    toggleNode(id);
+    const panel = node.closest('.tab-panel');
+    const key = panel ? panel.id.replace('tab-', '') : 'nava';
+    setTimeout(() => drawLines(key), 440);
+  });
+});
+
+// ─── EXPAND / COLLAPSE ALL ────────────────────────────────
+function expandAll(key) {
+  const panel = document.getElementById('tab-' + key);
+  panel.querySelectorAll('.children-l1, .children-l2').forEach(el => el.classList.add('open'));
+  panel.querySelectorAll('[data-toggle]').forEach(n => n.classList.add('active'));
+  setTimeout(() => drawLines(key), 60);
+}
+function collapseAll(key) {
+  const panel = document.getElementById('tab-' + key);
+  panel.querySelectorAll('.children-l1, .children-l2').forEach(el => el.classList.remove('open'));
+  panel.querySelectorAll('[data-toggle]').forEach(n => n.classList.remove('active'));
+  setTimeout(() => drawLines(key), 60);
+}
+
+// ─── DRAW SVG CONNECTOR LINES (animated dashes) ───────────
+function drawLines(key) {
+  const svg = document.getElementById('main-svg-' + key);
+  const wrap = document.getElementById('flowWrap-' + key);
+  const rootNode = document.getElementById('rootNode-' + key);
+  const branchesCol = document.getElementById('branchesCol-' + key);
+  if (!svg || !wrap || !rootNode || !branchesCol) return;
+
+  const strokeColor = getComputedStyle(document.documentElement).getPropertyValue('--connector-stroke').trim() || '#8fa4d8';
+
+  wrap.style.position = 'relative';
+  svg.setAttribute('width', wrap.offsetWidth);
+  svg.setAttribute('height', wrap.offsetHeight);
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+  // Add animation style inside SVG
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+  style.textContent = '.flow-line { stroke-dasharray: 6 4; animation: dash-flow 0.9s linear infinite; } @keyframes dash-flow { to { stroke-dashoffset: -20; } }';
+  defs.appendChild(style);
+  svg.appendChild(defs);
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const wrapRect = wrap.getBoundingClientRect();
+  const rootRect = rootNode.getBoundingClientRect();
+
+  const rx = rootRect.right - wrapRect.left;
+  const ry = rootRect.top + rootRect.height / 2 - wrapRect.top;
+  const spineX = rx + 32;
+
+  let firstY = null, lastY = null;
+
+  branchesCol.querySelectorAll(':scope > .branch-group').forEach(branch => {
+    const l1 = branch.querySelector('.node-l1');
+    if (!l1) return;
+    const nr = l1.getBoundingClientRect();
+    const ny = nr.top + nr.height / 2 - wrapRect.top;
+    const nx = nr.left - wrapRect.left;
+    if (firstY === null) firstY = ny;
+    lastY = ny;
+
+    const line = document.createElementNS(NS, 'line');
+    line.setAttribute('x1', spineX); line.setAttribute('y1', ny);
+    line.setAttribute('x2', nx - 2); line.setAttribute('y2', ny);
+    line.setAttribute('stroke', strokeColor); line.setAttribute('stroke-width', '1.5');
+    line.setAttribute('class', 'flow-line');
+    svg.appendChild(line);
+  });
+
+  if (firstY !== null) {
+    const h = document.createElementNS(NS, 'line');
+    h.setAttribute('x1', rx); h.setAttribute('y1', ry);
+    h.setAttribute('x2', spineX); h.setAttribute('y2', ry);
+    h.setAttribute('stroke', strokeColor); h.setAttribute('stroke-width', '1.5');
+    h.setAttribute('class', 'flow-line');
+    svg.appendChild(h);
+
+    const v = document.createElementNS(NS, 'line');
+    v.setAttribute('x1', spineX); v.setAttribute('y1', firstY);
+    v.setAttribute('x2', spineX); v.setAttribute('y2', lastY);
+    v.setAttribute('stroke', strokeColor); v.setAttribute('stroke-width', '1.5');
+    svg.appendChild(v);
+
+    const dot = document.createElementNS(NS, 'circle');
+    dot.setAttribute('cx', rx); dot.setAttribute('cy', ry);
+    dot.setAttribute('r', '3'); dot.setAttribute('fill', strokeColor);
+    svg.appendChild(dot);
+  }
+}
+
+// ─── DARK / LIGHT MODE TOGGLE ─────────────────────────────
+function setMode(mode) {
+  const lightBtn = document.getElementById('modeLightBtn');
+  const darkBtn = document.getElementById('modeDarkBtn');
+  if (mode === 'dark') {
+    document.body.classList.add('dark-mode');
+    darkBtn.classList.add('active');
+    lightBtn.classList.remove('active');
+  } else {
+    document.body.classList.remove('dark-mode');
+    lightBtn.classList.add('active');
+    darkBtn.classList.remove('active');
+  }
+  setTimeout(() => { drawLines('nava'); drawLines('incident'); }, 60);
+}
+
+// ─── INIT ──────────────────────────────────────────────────
+window.addEventListener('resize', () => { drawLines('nava'); drawLines('incident'); });
+window.addEventListener('load', () => { setTimeout(() => { drawLines('nava'); drawLines('incident'); }, 80); });
+setTimeout(() => { drawLines('nava'); drawLines('incident'); }, 150);
+</script>
+</body>
+</html>
